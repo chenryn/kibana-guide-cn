@@ -75,3 +75,54 @@ github 上有好几个版本的 ESZabbix 仓库，都源自 Elastic 公司员工
 ## 其他
 
 untergeek 最近刚更新了他的仓库，重构了一个 es_stats_zabbix 模块用于 Zabbix 监控，有兴趣的读者可以参考：<https://github.com/untergeek/zabbix-grab-bag/blob/master/Elasticsearch/es_stats_zabbix.README.md>
+
+
+使用es_stats_zabbix模块监控 elasticsearch。并可扩展，比如添加 zabbix 的items，clusterstats，clusterstate，nodesstats，nodesinfo和API等等，形如：
+health[status]
+clusterstats[indices.docs.count]
+clusterstate[master_node]
+nodeinfo[YOUR_NODE_NAME,process.max_file_descriptors]
+nodestats[YOUR_NODE_NAME,process.open_file_descriptors]
+
+注意事项
+你不能自定义监控项的字段为zabbix的一些关键名称；
+Zabbix项目密钥长度限制为255个字节，所以这可能也限制了嵌套的监控项。
+
+步骤如下：
+下载该插件
+1.git clone https://github.com/untergeek/zabbix-grab-bag.git
+
+2.安装插件的py模块
+(sudo) pip install es_stats_zabbix
+
+3.添加Zabbix value maps
+Go to: Administration （管理）→ General（常规）；
+导航栏的右侧，下拉选择“Value mapping；
+点击 Create value map (创建值映射)。
+
+ES Cluster State
+0 ⇒ Green
+1 ⇒ Yellow
+2 ⇒ Red
+
+Exit Code
+0 ⇒ SUCCESS
+1 ⇒ FAIL
+
+4.修改es_stats_zabbix.ini.sample配置文件，重命名为es_stats_zabbix.ini，并修改文件中的[elasticsearch] ，[logging] ， [thirty_seconds], [sixty_seconds],  [five_minutes], host , zabbix_host等字段为实际值。
+
+5.修改es_stats_zabbix.userparm
+将该文件放置到你的zabbix的conf.d下，并编辑agentd.conf，include该配置文件。编辑该文件，修改 es_stats _ zabbix路径，es_stats_zabbix.ini路径。重启Zabbix agent。
+
+6.导入模板
+Go to: Configuration （配置）→ Templates（模板）
+导航栏的右侧，点击选择“Import”
+点击 选择文件，导入es_stats_zabbix_template.xml文件。
+因为官方提供的模板中，很多类型为trapper类型，但是，es_stats_zabbix.userparm定义的类型为agent，所以，需要把模板中得trapper类型修改为agent类型之后，才能正常显示数据。
+
+故障排除
+提供的ini文件的默认将日志输出到/dev/null。可以开启日志，使故障诊断更容易。
+debug = True vs. loglevel = DEBUG，开启日志文件。
+
+监控日志形如：
+2015-10-09 14:47:19,210 DEBUG elasticsearch log_request_success:66 < {"cluster_name":"myelasticsearch","status":"green","timed_out":false,"number_of_nodes":6,"number_of_data_nodes":4,"active_primary_shards":174,"active_shards":348,"relocating_shards":0,"initializing_shards":0,"unassigned_shards":0,"number_of_pending_tasks":0,"number_of_in_flight_fetch":0}
