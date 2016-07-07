@@ -109,7 +109,7 @@ if "_grokparsefailure" not in [tags] {
 
 ## 命令行参数
 
-Logstash 提供了一个 shell 脚本叫 `logstash` 方便快速运行。它支持一下参数：
+Logstash 提供了一个 shell 脚本叫 `logstash` 方便快速运行。它支持以下参数：
 
 * -e
 
