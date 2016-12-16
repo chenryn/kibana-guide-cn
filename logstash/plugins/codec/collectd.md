@@ -9,7 +9,8 @@ collectd 是一个守护(daemon)进程，用来收集系统性能和提供各种
 ## collectd的安装
 
 ### 软件仓库安装(推荐)
-collectd官方有一个的[软件仓库](https://collectd.org/download.shtml#debian): https://pkg.ci.collectd.org ，构建有`RHEL/CentOS`(rpm)，`Debian/Ubuntu`(deb)的软件包，如果你使用的操作系统属于上述，那么推荐使用软件仓库安装。
+
+collectd官方有一个的[软件仓库](https://collectd.org/download.shtml): https://pkg.ci.collectd.org ，构建有`RHEL/CentOS`(rpm)，`Debian/Ubuntu`(deb)的软件包，如果你使用的操作系统属于上述，那么推荐使用软件仓库安装。
 
 目前collectd官方维护3个版本: `5.4`, `5.5`, `5.6`。根据需要选择合适的版本。
 
@@ -89,6 +90,7 @@ LoadPlugin disk
 ```
 
 ##logstash的配置
+
 以下配置实现通过 logstash 监听 `25826` 端口，接收从 collectd 发送过来的各项检测数据。
 
 logstash默认自带有`collectd`的codec插件，详见官方文档: https://www.elastic.co/guide/en/logstash/current/plugins-codecs-collectd.html
