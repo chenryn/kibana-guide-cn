@@ -83,7 +83,7 @@ LoadPlugin disk
 <Plugin network>
     # logstash 的 IP 地址和 collectd 的数据接收端口号>
     # 如果logstash和collectd在同一台主机上也可以用环回地址127.0.0.1
-    <Server "10.0.0.1" "25826"
+    <Server "10.0.0.1" "25826">
     </Server>
 </Plugin>
 ```
