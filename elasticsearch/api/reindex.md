@@ -47,10 +47,11 @@ input {
 }
 output {
   elasticsearch {
-    hosts => [ "192.168.0.3" ]
+    host => [ "192.168.0.3" ]
     index => "%{[@metadata][_index]}"
     document_type => "%{[@metadata][_type]}"
     document_id => "%{[@metadata][_id]}"
+    protocol => "http"
   }
 }
 ```
